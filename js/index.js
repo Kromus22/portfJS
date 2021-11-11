@@ -96,3 +96,44 @@ const enabledScroll = () => {
 
     heandlerBurger(headerContactsBurger, headerContacts, 'header__contacts_open')
 }
+
+{
+    const portfolioList = document.querySelector('.portfolio__list')
+    const pageOverlay = document.createElement('div')
+    pageOverlay.classList.add('page__overlay')
+
+    portfolioList.addEventListener('click', (event) => {
+
+        const card = event.target.closest('.card')
+
+        if (card) {
+            disabledScroll()
+            document.body.append(pageOverlay)
+            const title = card.querySelector('.card__client')
+
+            const picture = document.createElement('picture')
+
+            picture.style.cssText = `
+                position: absolute;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 1440px;
+            `
+
+            picture.innerHTML = `
+                <source srcset="${card.dataset.fullImage}.avif" type="image/avif">
+                <source srcset="${card.dataset.fullImage}.webp" type="image/webp">
+                <img src="${card.dataset.fullImage}.jpg" alt="${title.textContent}">
+            `
+            pageOverlay.append(picture)
+        }
+    })
+
+    pageOverlay.addEventListener('click', () => {
+        enabledScroll()
+        pageOverlay.remove()
+        pageOverlay.textContent = ''
+    })
+}
