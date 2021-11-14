@@ -2,7 +2,20 @@ const disabledScroll = () => {
 
     const widthScroll = window.innerWidth - document.body.offsetWidth
 
+    if (window.innerWidth >= 992) {
+        document.querySelector('.page__header').style.left = `calc(50% - 50vw - ${widthScroll / 2}px)`
+    }
+
+    if (window.innerWidth >= 1440) {
+        document.querySelector('.page__header').style.left = `calc(50% - ${720 + widthScroll / 2}px)`
+    }
+
     document.body.scrollPosition = window.scrollY
+
+    document.documentElement.style.cssText = `
+        position: relative;
+        height: 100vh;
+    `
 
     document.body.style.cssText = `
     overflow: hidden;
@@ -16,7 +29,9 @@ const disabledScroll = () => {
 }
 
 const enabledScroll = () => {
+    document.documentElement.style.cssText = ''
     document.body.style.cssText = 'position: relative'
+    document.querySelector('.page__header').style.left = ''
     window.scroll({ top: document.body.scrollPosition })
 }
 
